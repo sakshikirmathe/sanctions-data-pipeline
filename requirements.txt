@@ -1,0 +1,7 @@
+requests
+pandas
+pdfplumber
+playwright
+openpyxl
+regex
+gender-guesser
