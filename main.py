@@ -1048,7 +1048,10 @@ def run_all():
         
         with sync_playwright() as pw:
             print("▶ Launching browser (Playwright)...")
-            browser = pw.chromium.launch(headless=False, slow_mo=120)
+            browser = pw.chromium.launch(
+            executable_path=r"C:\Users\dell\Desktop\sanctions_data_pipeline\chromium\chrome-win\chrome.exe",
+            headless=False,
+            slow_mo=120)
             context = browser.new_context()
             page = context.new_page()
 
