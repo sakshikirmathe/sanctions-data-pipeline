@@ -8,3 +8,5 @@ data/
 .vscode/
 chromium/
 venv/
+build/
+dist/

@@ -6,6 +6,14 @@ Combines creation.py and conversion.py into one flow:
 2. Splits entities and creates Excel template
 3. Populates Excel with entity details from XML
 """
+import sys, os
+
+def resource_path(relative):
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, relative)
+    return os.path.join(os.path.abspath("."), relative)
+
+CHROME_PATH = resource_path("chromium/chrome-win/chrome.exe")
 
 import re
 import os
@@ -27,7 +35,15 @@ import unicodedata
 # ================================================================================
 
 SANCTIONS_URL = "https://www.sanctionsmap.eu/#/main/travel/ban"
-BASE_DIR = Path(__file__).resolve().parent
+
+import sys
+from pathlib import Path
+
+if hasattr(sys, "_MEIPASS"):
+    BASE_DIR = Path.cwd()        # folder where EXE was launched from
+else:
+    BASE_DIR = Path(__file__).resolve().parent
+
 parent_dir = BASE_DIR / "data"
 parent_dir.mkdir(exist_ok=True)
 
@@ -1049,9 +1065,12 @@ def run_all():
         with sync_playwright() as pw:
             print("▶ Launching browser (Playwright)...")
             browser = pw.chromium.launch(
-            executable_path=r"C:\Users\dell\Desktop\sanctions_data_pipeline\chromium\chrome-win\chrome.exe",
-            headless=False,
-            slow_mo=120)
+            executable_path=CHROME_PATH,
+            headless=True,
+            slow_mo=120
+            )
+
+
             context = browser.new_context()
             page = context.new_page()
 
